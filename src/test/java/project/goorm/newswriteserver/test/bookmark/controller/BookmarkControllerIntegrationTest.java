@@ -4,10 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,14 +21,12 @@ import project.goorm.newswriteserver.common.rdb.AbstractContainerTestBase;
 import project.goorm.newswriteserver.test.helper.fixture.NewsFixture;
 import project.goorm.newswriteserver.test.helper.persistence.PersistenceHelper;
 
+@ActiveProfiles("test")
 @Import({TestConfig.class})
-@AutoConfigureMockMvc
+@DisplayName("북마크 컨트롤러 통합 테스트")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookmarkControllerIntegrationTest extends AbstractContainerTestBase {
 
-
-
-//    @Autowired
     private MockMvc mockMvc;
 
     @Autowired

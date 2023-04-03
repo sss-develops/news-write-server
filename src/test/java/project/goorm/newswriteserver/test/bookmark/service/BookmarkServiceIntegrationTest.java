@@ -19,8 +19,9 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Import({TestConfig.class})
-@ActiveProfiles("eureka-test")
+@DisplayName("북마크 저장 서비스레이어 통합 테스트")
 public class BookmarkServiceIntegrationTest extends AbstractContainerTestBase {
 
 
