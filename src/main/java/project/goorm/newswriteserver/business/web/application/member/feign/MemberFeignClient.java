@@ -1,4 +1,4 @@
-package project.goorm.newswriteserver.business.web.application.member;
+package project.goorm.newswriteserver.business.web.application.member.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
