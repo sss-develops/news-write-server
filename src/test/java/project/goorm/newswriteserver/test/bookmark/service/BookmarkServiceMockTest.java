@@ -1,4 +1,4 @@
-package project.goorm.newswriteserver.test.bookmark.controller;
+package project.goorm.newswriteserver.test.bookmark.service;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
@@ -10,33 +10,31 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import project.goorm.newswriteserver.business.core.bookmark.entity.Bookmark;
 import project.goorm.newswriteserver.business.core.news.entity.News;
-import project.goorm.newswriteserver.business.web.presentation.BookmarkCommandAPI;
+import project.goorm.newswriteserver.business.web.application.bookmark.service.BookmarkCommandService;
 import project.goorm.newswriteserver.common.rdb.AbstractContainerTestBase;
 import project.goorm.newswriteserver.test.helper.fixture.NewsFixture;
 import project.goorm.newswriteserver.test.helper.persistence.PersistenceHelper;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
+import static org.assertj.core.api.Assertions.*;
 
 @ActiveProfiles({"test"})
-@DisplayName("북마크 API 통합 테스트")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("북마크 서비스레이어 통합 테스트")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class BookmarkControllerIntegrationTest extends AbstractContainerTestBase {
-
-    private MockMvc mockMvc;
+public class BookmarkServiceMockTest extends AbstractContainerTestBase {
 
     @Autowired
-    private BookmarkCommandAPI bookmarkCommandAPI;
+    private BookmarkCommandService bookmarkCommandService;
 
     static final int PORT = 8080;
     public static WireMockServer wireMockServer = new WireMockServer(options().port(PORT));
+
+    @Autowired
+    private PersistenceHelper persistenceHelper;
 
     @DynamicPropertySource
     public static void addUrlProperties(DynamicPropertyRegistry registry) {
@@ -59,32 +57,27 @@ public class BookmarkControllerIntegrationTest extends AbstractContainerTestBase
         wireMockServer.resetAll();
     }
 
-    @BeforeEach
-    public void setup() {
-        this.mockMvc = MockMvcBuilders
-                .standaloneSetup(bookmarkCommandAPI)
-                .build();
-    }
-
-    @Autowired
-    private PersistenceHelper persistenceHelper;
-
     @Test
-    @DisplayName("북마크를 저장하면 Status코드가 201이다.")
-    public void given_news_id_when_save_then_status_created() throws Exception {
-        wireMockServer.stubFor(get(urlMatching("/api/member/exist/1"))
+    @DisplayName("북마크 저장을 하면 북마크가 생긴다.")
+    public void given_memberid_newsid_when_save_bookmark_then_is_not_null() {
+        Long memberId = 1L;
+        wireMockServer.stubFor(get(urlMatching("/api/member/exist/"+memberId))
                 .willReturn(aResponse()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBody("true"))
         );
 
-        News news = persistenceHelper.persist(NewsFixture.createNews());
-        Long newsId = news.getNewsId();
+        News persist = persistenceHelper.persist(NewsFixture.createNews());
+        Bookmark bookmark = bookmarkCommandService.saveBookmark(1L, memberId);
 
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.post("/api/bookmark/save/1/"+newsId)
-                .contentType(MediaType.APPLICATION_JSON)
-        );
+        assertThat(bookmark).isNotNull();
+    }
 
-        response.andExpect(MockMvcResultMatchers.status().isCreated());
+    @Test
+    @DisplayName("Auth서버랑 연결되지 않으면 에러를 반환한다.")
+    public void when_bookmark_save_then_throw_error() {
+        assertThatThrownBy(() -> bookmarkCommandService.saveBookmark(1L, 1L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("페인 클라이언트 에러!");
     }
 }
