@@ -30,7 +30,7 @@ public class BookmarkServiceMockTest extends AbstractContainerTestBase {
     @Autowired
     private BookmarkCommandService bookmarkCommandService;
 
-    static final int PORT = 8080;
+    static final int PORT = 8090;
     public static WireMockServer wireMockServer = new WireMockServer(options().port(PORT));
 
     @Autowired

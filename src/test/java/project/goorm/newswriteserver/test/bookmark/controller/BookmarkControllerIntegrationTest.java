@@ -35,7 +35,7 @@ public class BookmarkControllerIntegrationTest extends AbstractContainerTestBase
     @Autowired
     private BookmarkCommandAPI bookmarkCommandAPI;
 
-    static final int PORT = 8080;
+    static final int PORT = 8091;
     public static WireMockServer wireMockServer = new WireMockServer(options().port(PORT));
 
     @DynamicPropertySource
