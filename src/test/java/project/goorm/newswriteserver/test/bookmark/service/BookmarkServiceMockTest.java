@@ -13,7 +13,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import project.goorm.newswriteserver.business.core.bookmark.entity.Bookmark;
 import project.goorm.newswriteserver.business.core.news.entity.News;
 import project.goorm.newswriteserver.business.web.application.bookmark.service.BookmarkCommandService;
-import project.goorm.newswriteserver.common.rdb.AbstractContainerTestBase;
+import project.goorm.newswriteserver.common.rdb.DatabaseTestBase;
 import project.goorm.newswriteserver.test.helper.fixture.NewsFixture;
 import project.goorm.newswriteserver.test.helper.persistence.PersistenceHelper;
 
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("북마크 서비스레이어 통합 테스트")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class BookmarkServiceMockTest extends AbstractContainerTestBase {
+public class BookmarkServiceMockTest extends DatabaseTestBase {
 
     @Autowired
     private BookmarkCommandService bookmarkCommandService;
