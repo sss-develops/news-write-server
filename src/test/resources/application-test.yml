@@ -1,21 +1,26 @@
 spring:
-  application:
-    name: news-write-server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: news-write-server
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
-  config:
-    import: optional:configserver:http://localhost:8072/
-
-eureka:
-  instance:
-    prefer-ip-address: true
+feign:
   client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka/
-    enabled: true
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000
+        logger-level: basic
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      existMember:
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 5
+        wait-duration-in-open-state: 30000
+        permitted-number-of-calls-in-half-open-state: 2
