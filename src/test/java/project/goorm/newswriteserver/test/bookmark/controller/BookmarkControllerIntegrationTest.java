@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import project.goorm.newswriteserver.business.core.news.entity.News;
 import project.goorm.newswriteserver.business.web.presentation.BookmarkCommandAPI;
 import project.goorm.newswriteserver.common.rdb.AbstractContainerTestBase;
+import project.goorm.newswriteserver.common.rdb.DatabaseTestBase;
 import project.goorm.newswriteserver.test.helper.fixture.NewsFixture;
 import project.goorm.newswriteserver.test.helper.persistence.PersistenceHelper;
 
@@ -27,8 +28,8 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 @ActiveProfiles({"test"})
 @DisplayName("북마크 API 통합 테스트")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class BookmarkControllerIntegrationTest extends AbstractContainerTestBase {
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+public class BookmarkControllerIntegrationTest extends DatabaseTestBase {
 
     private MockMvc mockMvc;
 
