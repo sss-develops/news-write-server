@@ -17,6 +17,11 @@ feign:
         logger-level: basic
 
 
+api:
+  authentication-server:
+    name: authentication-server
+    url: http://localhost:8097
+
 resilience4j:
   circuitbreaker:
     instances:
