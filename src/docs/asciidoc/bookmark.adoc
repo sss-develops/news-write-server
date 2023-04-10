@@ -1,0 +1,19 @@
+= Spring REST Docs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[resources-post]]
+== Post
+
+[[resources-post-create]]
+=== 북마크 저장
+
+==== HTTP request
+include::{snippets}/post-create/http-request.adoc[]
+
+include::{snippets}/post-create/path-parameters.adoc[]
+
+==== HTTP response
+
+include::{snippets}/post-create/http-response.adoc[]
