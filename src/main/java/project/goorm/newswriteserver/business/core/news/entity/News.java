@@ -66,6 +66,27 @@ public class News {
         this.deleted = Deleted.FALSE;
     }
 
+    public News(
+            Long newsId,
+            String title,
+            String description,
+            Long companyId,
+            String originalLink,
+            String naverLink,
+            Instant publishedAt,
+            Instant createdAt
+    ) {
+        this.newsId = newsId;
+        this.title = title;
+        this.description = description;
+        this.companyId = companyId;
+        this.originalLink = originalLink;
+        this.naverLink = naverLink;
+        this.publishedAt = publishedAt;
+        this.createdAt = createdAt;
+        this.deleted = Deleted.FALSE;
+    }
+
     public Long getNewsId() {
         return newsId;
     }
